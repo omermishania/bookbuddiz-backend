@@ -1,22 +1,29 @@
 import express, { Express, Request, Response } from 'express';
-import { generateJwt } from './auth';
+import { generateJwt, verifyJwt } from './auth';
 
 
 var app: Express = express();
 
 app.post('/login', function (req: Request, res: Response) {
   const b64auth: String = (req.headers.authorization || '').split(' ')[1] || ''
-  const [login, password]: Array<string> = Buffer.from(b64auth, 'base64').toString().split(':')
+  const [user, password]: Array<string> = Buffer.from(b64auth, 'base64').toString().split(':')
 
-  // Generate JWT
-    const token = generateJwt(login, password);
-  
-  if (login === "paz" && password === "omer") {
-    res.json({ token });
+  if (user === "paz" && password === "omer") {
+    // res.send(true);
+    // Generate JWT
+    const token = generateJwt(user, password);
+    localStorage.setItem("jwtToken", token);
+    const storedToken = localStorage.getItem("jwtToken");
+    res.send(storedToken)
   } 
   else {
       res.send(false)
   }
+});
+
+// Protected endpoint that requires a valid JWT token in the Authorization header
+app.get('/protected', verifyJwt, (req, res) => {
+  res.json({ message: 'You have access to this protected endpoint!' });
 });
 
 app.listen(3000, function () {
