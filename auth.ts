@@ -5,7 +5,6 @@ import { mySecretKey } from './secrets';
 
 export function generateJwt(username: string, password: string): string {
   // Verify user credentials here (e.g., using a database lookup)
-
   // Create the payload
   const payload = {
     username,
