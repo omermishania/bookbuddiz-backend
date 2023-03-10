@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from 'express';
 import { generateJwt, verifyJwt } from '../auth';
 import connectDB from './db';
 import authenticateUser from './middlewares/auth';
+import { addBookToUser } from './routes/addBookToUser';
 import { createUser } from './routes/createUser';
 import { getAllUsers } from './routes/getAllUsers';
 
@@ -29,8 +30,21 @@ app.post('/login', authenticateUser, (req, res) => {
 
 
 
+app.post('/users/:username/books/:bookId', async (req, res) => {
+  const { username, bookId } = req.params;
+  // Add the book to the user's books array
+  const bookAdded = await addBookToUser(username, bookId);
+
+  if (bookAdded) {
+    res.status(200).send(`Book ${bookId} added to user ${username}`);
+  } else {
+    res.status(404).send(`User ${username} not found`);
+  }
+});
+
+
 app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+  console.log('Bookbuddiz listening on port 3000!');
 });
 function delay(arg0: number) {
   throw new Error('Function not implemented.');
