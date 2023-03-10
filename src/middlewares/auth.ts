@@ -25,8 +25,6 @@ const authenticateUser = async (req: Request, res: Response, next: NextFunction)
     //   return;
     // }
 
-    req.user = user;
-    next();
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });

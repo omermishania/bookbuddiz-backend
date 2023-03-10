@@ -5,13 +5,15 @@ interface User {
   lastName: string;
   userName: string;
   password: string;
+  books: string[]; // // array of book IDs
 }
 
 const UserSchema: Schema = new Schema<User>({
-  firstName: { type: String, required: false },
-  lastName: { type: String, required: false },
-  userName: { type: String, required: false },
-  password: { type: String, required: false },
+  firstName: { type: String },
+  lastName: { type: String },
+  userName: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  books: [{ type: String }]
 });
 
 const User = model<User>('User', UserSchema);
