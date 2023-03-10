@@ -3,6 +3,7 @@ import { generateJwt, verifyJwt } from '../auth';
 import connectDB from './db';
 import authenticateUser from './middlewares/auth';
 import { addBookToUser } from './routes/addBookToUser';
+import { getUserBooks } from './routes/getUserBooks';
 import { createUser } from './routes/createUser';
 import { getAllUsers } from './routes/getAllUsers';
 
@@ -28,7 +29,13 @@ app.post('/login', authenticateUser, (req, res) => {
   res.json({ message: 'User is authenticated' });
 });
 
-
+app.get('/users/:userName/books', async (req, res) => {
+  const userName = req.params.userName;
+  const userBooks = await getUserBooks(userName, res);
+  if (userBooks) {
+    res.json(userBooks);
+  }
+});
 
 app.post('/users/:username/books/:bookId', async (req, res) => {
   const { username, bookId } = req.params;
