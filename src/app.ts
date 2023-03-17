@@ -1,5 +1,5 @@
 import express, { Express, Request, Response } from 'express';
-import { generateJwt, verifyJwt } from '../auth';
+// import { generateJwt, verifyJwt } from '../auth';
 import connectDB from './db';
 import { addBookToUser } from './routes/addBookToUser';
 import { getUserBooks } from './routes/getUserBooks';

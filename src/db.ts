@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
-import { mongoPassword } from '../secrets';
+
+// Remove later on
+export const mongoPassword = 'omerpaz'
 
 const connectDB = async () => {
   try {
