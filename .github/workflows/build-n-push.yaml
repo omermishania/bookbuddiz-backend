@@ -29,3 +29,32 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/bookbuddiz-backend:${GITHUB_RUN_ID}
+
+
+name: Build and push Docker image
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and tag Docker image
+      run: |
+        docker build -t bookbuddiz-backend:${{ github.sha }} .
+        docker tag bookbuddiz-backend:${{ github.sha }} myimage:${{ github.ref }}
+
+    - name: Push Docker image
+      run: |
+        docker push bookbuddiz-backend:${{ github.ref }}
