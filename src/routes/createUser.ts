@@ -1,18 +1,23 @@
 import { Request, Response } from 'express';
+import bcrypt from 'bcrypt';
 import User from '../models/user.model';
 
 export const createUser = async (req: Request, res: Response) => {
   try {
     const { firstName, lastName, userName, password } = req.body;
 
-    // Check if a user with the same email already exists in the database
+    // Check if a user with the same username already exists in the database
     const existingUser = await User.findOne({ userName });
     if (existingUser) {
       return res.status(400).json({ error: 'User with the provided username already exists' });
     }
 
+    // Hash the password using bcrypt
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
     // Create a new User instance
-    const newUser = new User({ firstName, lastName, userName, password });
+    const newUser = new User({ firstName, lastName, userName, password: hashedPassword });
 
     // Save the new user to the database
     const savedUser = await newUser.save();

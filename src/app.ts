@@ -1,11 +1,11 @@
 import express, { Express, Request, Response } from 'express';
 import { generateJwt, verifyJwt } from '../auth';
 import connectDB from './db';
-import authenticateUser from './middlewares/auth';
 import { addBookToUser } from './routes/addBookToUser';
 import { getUserBooks } from './routes/getUserBooks';
 import { createUser } from './routes/createUser';
 import { getAllUsers } from './routes/getAllUsers';
+import { authenticateUser } from './middlewares/auth';
 
 var bodyParser = require('body-parser');
 var app: Express = express();

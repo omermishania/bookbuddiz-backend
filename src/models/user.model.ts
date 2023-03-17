@@ -1,4 +1,5 @@
 import { Schema, model, Document } from 'mongoose';
+import bcrypt from 'bcrypt';
 
 interface User {
   firstName: string;
@@ -15,6 +16,20 @@ const UserSchema: Schema = new Schema<User>({
   password: { type: String, required: true },
   books: [{ type: String }]
 });
+
+
+UserSchema.pre('save', async function (next) {
+  const user = this;
+  if (!user.isModified('password')) return next();
+
+  const salt = await bcrypt.genSalt();
+  const hash = await bcrypt.hash(user.password, salt);
+
+  user.password = hash;
+  next();
+});
+
+
 
 const User = model<User>('User', UserSchema);
 
