@@ -12,13 +12,8 @@ export const createUser = async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'User with the provided username already exists' });
     }
 
-    // Hash the password using bcrypt
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    // Create a new User instance
-    const newUser = new User({ firstName, lastName, userName, password: hashedPassword });
-
+    const newUser = new User({ firstName, lastName, userName, password });
+    console.log(password)
     // Save the new user to the database
     const savedUser = await newUser.save();
 
