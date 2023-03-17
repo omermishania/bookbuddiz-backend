@@ -18,6 +18,12 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 
+const cors = require('cors');
+app.use(cors({
+    origin: '*'
+}));
+
+
 // Connect to Mongo
 connectDB();
 
