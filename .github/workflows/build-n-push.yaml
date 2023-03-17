@@ -19,8 +19,8 @@ jobs:
 
     - name: Build and tag Docker image
       run: |
-        docker build -t bookbuddiz-backend:${{ github.sha }} .
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/bookbuddiz-backend:${{ github.sha }} .
 
     - name: Push Docker image
       run: |
-        docker push bookbuddiz-backend:${{ github.sha }}
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/bookbuddiz-backend:${{ github.sha }}
