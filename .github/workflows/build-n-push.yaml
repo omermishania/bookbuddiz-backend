@@ -20,8 +20,7 @@ jobs:
     - name: Build and tag Docker image
       run: |
         docker build -t bookbuddiz-backend:${{ github.sha }} .
-        docker tag bookbuddiz-backend:${{ github.sha }} myimage:${{ github.ref }}
 
     - name: Push Docker image
       run: |
-        docker push bookbuddiz-backend:${{ github.ref }}
+        docker push bookbuddiz-backend:${{ github.sha }}
