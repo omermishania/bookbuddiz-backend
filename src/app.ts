@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from 'express';
 // import { generateJwt, verifyJwt } from '../auth';
+import cors from 'cors';
 import connectDB from './db';
 import { addBookToUser } from './routes/addBookToUser';
 import { getUserBooks } from './routes/getUserBooks';
@@ -18,7 +19,6 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 
-const cors = require('cors');
 app.use(cors({
     origin: '*'
 }));
